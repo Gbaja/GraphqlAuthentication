@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-
+const axios = require("axios");
 const OrganisationType = require("./organisation_type");
 
 const { GraphQLObjectType, GraphQLString } = graphql;
@@ -11,8 +11,9 @@ const RootQuery = new GraphQLObjectType({
       type: OrganisationType,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, args) {
-        fetch(` http://localhost:3000/organisations/${args.id}`)
-          .then(res => res.json())
+        return axios
+          .get(`http://localhost:3000/organisations/${args.id}`)
+          .then(res => res.data)
           .catch(err => {
             console.log("error: ", err);
           });
