@@ -1,10 +1,22 @@
-const app = require('express')();
-const helmet = require('helmet');
+const app = require("express")();
+const helmet = require("helmet");
+const expressGraphQL = require("express-graphql");
+const bodyParser = require("body-parser");
+const schema = require("./schema/schema");
 
 app.use(helmet());
 
-app.get("/", (req, res)=>{
+app.use(bodyParser.json());
+app.use(
+  "/graphql",
+  expressGraphQL({
+    schema,
+    graphiql: true
+  })
+);
+
+app.get("/", (req, res) => {
   res.send("server running");
 });
 
-module.exports = app;  
+module.exports = app;
