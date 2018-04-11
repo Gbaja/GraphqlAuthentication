@@ -1,11 +1,14 @@
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize("bridgemap", "postgres", "postgres", {
-  dialect: "postgres"
+  dialect: "postgres",
+  define: {
+    underscored: true
+  }
 });
 
 const models = {
-  organisation: sequelize.import("./organisation")
+  Organisation: sequelize.import("./organisation")
 };
 
 Object.keys(models).forEach(modelName => {
