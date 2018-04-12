@@ -18,7 +18,11 @@ const RootQuery = new GraphQLObjectType({
       type: OrganisationType,
       resolve(parentValue, args) {
         console.log("ehyyyy");
-        return models.Organisation.findAll();
+        //return models.Organisation.all({ raw: true });
+        models.Organisation.findAll({ raw: true }).then(data => {
+          console.log(data);
+          return data;
+        });
       }
     }
   }

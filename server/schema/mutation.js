@@ -18,7 +18,7 @@ const mutation = new GraphQLObjectType({
         password: { type: GraphQLString },
         verified: { type: GraphQLString }
       },
-      resolve(parentValue, args, req) {
+      resolve(parentValue, args) {
         return models.Organisation.create(args);
       }
     }
