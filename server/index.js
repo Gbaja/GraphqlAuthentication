@@ -6,7 +6,6 @@ const schema = require("./schema/schema");
 
 app.use(helmet());
 
-//app.use(bodyParser.json());
 app.use(
   "/graphql",
   bodyParser.json(),
