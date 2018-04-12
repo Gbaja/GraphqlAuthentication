@@ -2,7 +2,7 @@ const graphql = require("graphql");
 const OrganisationType = require("./organisation_type");
 const models = require("../model");
 
-const { GraphQLObjectType, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLList } = graphql;
 
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
@@ -15,14 +15,9 @@ const RootQuery = new GraphQLObjectType({
       }
     },
     allOrganisation: {
-      type: OrganisationType,
+      type: new GraphQLList(OrganisationType),
       resolve(parentValue, args) {
-        console.log("ehyyyy");
-        //return models.Organisation.all({ raw: true });
-        models.Organisation.findAll({ raw: true }).then(data => {
-          console.log(data);
-          return data;
-        });
+        return models.Organisation.findAll();
       }
     }
   }
