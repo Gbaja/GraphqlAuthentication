@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize("bridgemap", "postgres", "postgres", {
   dialect: "postgres",
   define: {
-    underscored: true
+    underscored: false
   }
 });
 
@@ -13,7 +13,7 @@ const models = {
 
 Object.keys(models).forEach(modelName => {
   if ("associate" in models[modelName]) {
-    db[modelName].associate(db);
+    models[modelName].associate(models);
   }
 });
 

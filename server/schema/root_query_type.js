@@ -1,5 +1,4 @@
 const graphql = require("graphql");
-const axios = require("axios");
 const OrganisationType = require("./organisation_type");
 const models = require("../model");
 
@@ -13,6 +12,12 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLString } },
       resolve(parentValue, { id }) {
         return models.Organisation.findOne({ where: { id } });
+      }
+    },
+    allOrganisation: {
+      type: OrganisationType,
+      resolve(parentValue, args) {
+        return models.Organisation.findAll();
       }
     }
   }
