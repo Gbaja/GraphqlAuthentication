@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import { connect } from "react-redux";
 
 class OrgRegistrationForm extends Component {
   renderField(field) {
@@ -38,4 +37,4 @@ class OrgRegistrationForm extends Component {
   }
 }
 
-export default OrgRegistrationForm;
+export default reduxForm(OrgRegistrationForm);

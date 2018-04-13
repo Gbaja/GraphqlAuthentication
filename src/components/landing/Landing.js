@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
-class App extends Component {
+class Landing extends Component {
   constructor(props) {
     super(props);
   }
@@ -31,4 +31,4 @@ const query = gql`
   }
 `;
 
-export default graphql(query)(App);
+export default graphql(query)(Landing);
