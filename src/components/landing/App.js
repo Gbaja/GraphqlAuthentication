@@ -13,7 +13,7 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Bridge Map</h1>
         </header>
-        <button> Add organisation <button>
+        <button> Add organisation </button>
       </div>
     );
   }
