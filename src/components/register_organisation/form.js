@@ -17,6 +17,16 @@ class OrgRegistrationForm extends Component {
   onSubmit = event => {
     event.preventDefault();
     console.log("form");
+    this.props.mutate({
+      variables: {
+        organisation_name: this.state.organisationName,
+        organisation_type: this.state.organisationType,
+        registered_number: this.state.registeredNumber,
+        telephone_number: this.state.telephoneNumber,
+        email: this.state.email,
+        verified: this.state.verified
+      }
+    });
   };
 
   render() {
