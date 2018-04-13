@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
 
 class OrgRegistrationForm extends Component {
   renderField(field) {
@@ -15,7 +16,7 @@ class OrgRegistrationForm extends Component {
       <div>
         <form>
           <h3> Add organisation </h3>
-          <Field
+          {/* <Field
             label="Organisation name"
             name="organisation_name"
             component={this.renderField}
@@ -30,11 +31,10 @@ class OrgRegistrationForm extends Component {
             name="registered_number"
             component={this.renderField}
           />
-          <Field label="Email" name="email" component={this.renderField} />
+          <Field label="Email" name="email" component={this.renderField} /> */}
         </form>
       </div>
     );
   }
 }
-
-export default reduxForm(OrgRegistrationForm);
+export default OrgRegistrationForm;
