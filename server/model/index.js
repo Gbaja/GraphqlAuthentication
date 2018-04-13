@@ -1,8 +1,9 @@
 const Sequelize = require("sequelize");
+require("env2")("./config.env");
 
 let sequelize = null;
 if (process.env.USERS_DB_URL) {
-  const match = process.env.DATABASE_URL.match(
+  const match = process.env.USERS_DB_URL.match(
     /postgres:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)/
   );
   sequelize = new Sequelize(match[5], match[1], match[2], {
@@ -13,7 +14,8 @@ if (process.env.USERS_DB_URL) {
     logging: false,
     dialectOptions: {
       ssl: true
-    }
+    },
+    operatorsAliases: false
   });
 } else {
   sequelize = new Sequelize("bridgemap", "postgres", "postgres", {
