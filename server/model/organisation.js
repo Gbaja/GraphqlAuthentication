@@ -1,3 +1,4 @@
+//LOOK INTO DATATYPE VISUAL FOR PASSWORD
 module.exports = (sequelize, DataTypes) => {
   const Organisation = sequelize.define("Organisation", {
     organisation_name: DataTypes.STRING,
@@ -6,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     telephone_number: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    verified: DataTypes.STRING,
+    verified: DataTypes.BOOLEAN,
     createdAt: {
       type: DataTypes.DATE(3)
     },

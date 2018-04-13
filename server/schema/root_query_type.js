@@ -1,5 +1,5 @@
 const graphql = require("graphql");
-const OrganisationType = require("./organisation_type");
+const OrganisationType = require("./types/organisation_type");
 const models = require("../model");
 
 const { GraphQLObjectType, GraphQLString, GraphQLList } = graphql;

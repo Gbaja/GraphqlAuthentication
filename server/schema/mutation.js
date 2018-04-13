@@ -1,7 +1,7 @@
 const graphql = require("graphql");
 
 const { GraphQLObjectType, GraphQLString } = graphql;
-const OrganisationType = require("./organisation_type");
+const OrganisationType = require("./types/organisation_type");
 const models = require("../model");
 
 const mutation = new GraphQLObjectType({

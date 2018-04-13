@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { Link } from "react-router-dom";
 
-class App extends Component {
+class Landing extends Component {
   constructor(props) {
     super(props);
   }
@@ -13,6 +14,7 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Bridge Map</h1>
         </header>
+        <Link to="/signup_form"> Add organisation </Link>
       </div>
     );
   }
@@ -30,4 +32,4 @@ const query = gql`
   }
 `;
 
-export default graphql(query)(App);
+export default graphql(query)(Landing);
