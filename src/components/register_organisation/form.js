@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import gql from "graphql-tag";
+import { graphql } from "react-apollo";
 
 class OrgRegistrationForm extends Component {
   constructor(props) {
@@ -12,10 +14,15 @@ class OrgRegistrationForm extends Component {
       verified: false
     };
   }
+  onSubmit = event => {
+    event.preventDefault();
+    console.log("form");
+  };
+
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.onSubmit}>
           <h3> Add organisation </h3>
           <label htmlFor="organisationName">Organisation name </label>
           <input
@@ -66,4 +73,29 @@ class OrgRegistrationForm extends Component {
     );
   }
 }
-export default OrgRegistrationForm;
+
+const mutation = gql`
+  mutation newOrganisation(
+    $organisation_name: String
+    $organisation_type: String
+    $registered_number: String
+    $telephone_number: String
+    $email: String
+    $password: String
+    $verified: Boolean
+  ) {
+    addOrganisation(
+      organisation_name: $organisation_name
+      organisation_type: $organisation_type
+      registered_number: $registered_number
+      telephone_number: $telephone_number
+      email: $email
+      password: $password
+      verified: $verified
+    ) {
+      id
+      organisation_name
+    }
+  }
+`;
+export default graphql(mutation)(OrgRegistrationForm);
