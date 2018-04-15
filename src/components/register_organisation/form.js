@@ -43,7 +43,7 @@ class OrgRegistrationForm extends Component {
               this.setState({ organisationName: event.target.value })
             }
           />
-          <label htmlFor="organisationType">Organisation name </label>
+          <label htmlFor="organisationType">Organisation type </label>
           <input
             type="text"
             value={this.state.organisationType}
@@ -52,7 +52,7 @@ class OrgRegistrationForm extends Component {
               this.setState({ organisationType: event.target.value })
             }
           />
-          <label htmlFor="registeredNumber">Organisation name </label>
+          <label htmlFor="registeredNumber">Registered number </label>
           <input
             type="text"
             value={this.state.registeredNumber}
@@ -61,7 +61,7 @@ class OrgRegistrationForm extends Component {
               this.setState({ registeredNumber: event.target.value })
             }
           />
-          <label htmlFor="telephoneNumber">Organisation name </label>
+          <label htmlFor="telephoneNumber">Telephone number </label>
           <input
             type="text"
             value={this.state.telephoneNumber}
@@ -70,7 +70,7 @@ class OrgRegistrationForm extends Component {
               this.setState({ telephoneNumber: event.target.value })
             }
           />
-          <label htmlFor="email">Organisation name </label>
+          <label htmlFor="email">Email </label>
           <input
             type="text"
             value={this.state.email}
