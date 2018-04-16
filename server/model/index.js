@@ -26,7 +26,7 @@ if (process.env.USERS_DB_URL) {
   });
 }
 const models = {
-  Organisation: sequelize.import("./organisation")
+  Registration: sequelize.import("./registration")
 };
 
 Object.keys(models).forEach(modelName => {
