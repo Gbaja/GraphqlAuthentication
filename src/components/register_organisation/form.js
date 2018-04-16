@@ -6,12 +6,11 @@ class OrgRegistrationForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      organisationName: "",
-      organisationType: "",
-      registeredNumber: "",
-      telephoneNumber: "",
+      firstName: "",
+      lastName: "",
+      accountType: "",
       email: "",
-      verified: false
+      password: ""
     };
   }
   onSubmit = event => {
@@ -19,12 +18,11 @@ class OrgRegistrationForm extends Component {
     console.log("form");
     this.props.mutate({
       variables: {
-        organisation_name: this.state.organisationName,
-        organisation_type: this.state.organisationType,
-        registered_number: this.state.registeredNumber,
-        telephone_number: this.state.telephoneNumber,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        accountType: this.state.accountType,
         email: this.state.email,
-        verified: this.state.verified
+        password: this.state.password
       }
     });
   };
@@ -33,35 +31,31 @@ class OrgRegistrationForm extends Component {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-          <h3> Add organisation </h3>
-          <label htmlFor="organisationName">Organisation name </label>
+          <h3> Sign up </h3>
+          <label htmlFor="firstName">First Name </label>
           <input
             type="text"
-            value={this.state.organisationName}
-            id="organisationName"
-            onChange={event =>
-              this.setState({ organisationName: event.target.value })
-            }
+            value={this.state.firstName}
+            id="firstName"
+            onChange={event => this.setState({ firstName: event.target.value })}
           />
-          <label htmlFor="organisationType">Organisation type </label>
+          <label htmlFor="lastName">Last Name </label>
           <input
             type="text"
-            value={this.state.organisationType}
-            id="organisationType"
-            onChange={event =>
-              this.setState({ organisationType: event.target.value })
-            }
+            value={this.state.lastName}
+            id="lastName"
+            onChange={event => this.setState({ lastName: event.target.value })}
           />
-          <label htmlFor="registeredNumber">Registered number </label>
+          <label htmlFor="accountType">I am a ... </label>
           <input
             type="text"
-            value={this.state.registeredNumber}
-            id="registeredNumber"
+            value={this.state.accountType}
+            id="accountType"
             onChange={event =>
-              this.setState({ registeredNumber: event.target.value })
+              this.setState({ accountType: event.target.value })
             }
           />
-          <label htmlFor="telephoneNumber">Telephone number </label>
+          <label htmlFor="telephoneNumber">Email </label>
           <input
             type="text"
             value={this.state.telephoneNumber}
@@ -70,7 +64,7 @@ class OrgRegistrationForm extends Component {
               this.setState({ telephoneNumber: event.target.value })
             }
           />
-          <label htmlFor="email">Email </label>
+          <label htmlFor="email">Password </label>
           <input
             type="text"
             value={this.state.email}

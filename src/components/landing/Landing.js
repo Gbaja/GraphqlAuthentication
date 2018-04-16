@@ -14,7 +14,7 @@ class Landing extends Component {
         <header className="App-header">
           <h1 className="App-title">Bridge Map</h1>
         </header>
-        <Link to="/signup_form"> Add organisation </Link>
+        <Link to="/signup_form"> Sign up </Link>
       </div>
     );
   }
