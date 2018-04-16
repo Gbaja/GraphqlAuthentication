@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import gql from "graphql-tag";
 import { graphql } from "react-apollo";
+
+import mutation from "../../mutations/register";
 
 class OrgRegistrationForm extends Component {
   constructor(props) {
@@ -8,9 +9,10 @@ class OrgRegistrationForm extends Component {
     this.state = {
       firstName: "",
       lastName: "",
-      accountType: "",
+      accountType: "Mentor",
       email: "",
-      password: ""
+      password: "",
+      confirmPassword: ""
     };
   }
   onSubmit = event => {
@@ -47,29 +49,37 @@ class OrgRegistrationForm extends Component {
             onChange={event => this.setState({ lastName: event.target.value })}
           />
           <label htmlFor="accountType">I am a ... </label>
-          <input
-            type="text"
+          <select
             value={this.state.accountType}
-            id="accountType"
             onChange={event =>
               this.setState({ accountType: event.target.value })
             }
-          />
-          <label htmlFor="telephoneNumber">Email </label>
-          <input
-            type="text"
-            value={this.state.telephoneNumber}
-            id="telephoneNumber"
-            onChange={event =>
-              this.setState({ telephoneNumber: event.target.value })
-            }
-          />
-          <label htmlFor="email">Password </label>
+          >
+            <option value="Mentor">Mentor</option>
+            <option value="Mentee">Mentee</option>
+          </select>
+          <label htmlFor="email">Email </label>
           <input
             type="text"
             value={this.state.email}
             id="email"
             onChange={event => this.setState({ email: event.target.value })}
+          />
+          <label htmlFor="email">Password </label>
+          <input
+            type="password"
+            value={this.state.password}
+            id="email"
+            onChange={event => this.setState({ password: event.target.value })}
+          />
+          <label htmlFor="email">Confirm Password </label>
+          <input
+            type="password"
+            value={this.state.confirmPassword}
+            id="email"
+            onChange={event =>
+              this.setState({ confirmPassword: event.target.value })
+            }
           />
           <button type="submit"> Register </button>
         </form>
@@ -78,28 +88,4 @@ class OrgRegistrationForm extends Component {
   }
 }
 
-const mutation = gql`
-  mutation newOrganisation(
-    $organisation_name: String
-    $organisation_type: String
-    $registered_number: String
-    $telephone_number: String
-    $email: String
-    $password: String
-    $verified: Boolean
-  ) {
-    addOrganisation(
-      organisation_name: $organisation_name
-      organisation_type: $organisation_type
-      registered_number: $registered_number
-      telephone_number: $telephone_number
-      email: $email
-      password: $password
-      verified: $verified
-    ) {
-      id
-      organisation_name
-    }
-  }
-`;
 export default graphql(mutation)(OrgRegistrationForm);

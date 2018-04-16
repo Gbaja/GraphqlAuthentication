@@ -7,7 +7,7 @@ const { GraphQLObjectType, GraphQLString, GraphQLList } = graphql;
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
-    organisation: {
+    account: {
       type: Registrationtype,
       args: { id: { type: GraphQLString } },
       resolve(parentValue, { id }) {
