@@ -10,6 +10,7 @@
   "dependencies": {
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
+    "apollo-fetch": "^0.7.0",
     "apollo-link-http": "^1.5.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",

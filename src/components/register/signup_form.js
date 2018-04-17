@@ -4,6 +4,8 @@ import { withFormik, Form, Field } from "formik";
 import Yup from "yup";
 import { graphql } from "react-apollo";
 
+import { createApolloFetch } from "apollo-fetch";
+
 import mutation from "../../mutations/register";
 import query from "../../queries/checkAccount";
 
@@ -79,28 +81,35 @@ const FormikApp = withFormik({
     )
   }),
   handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
-    if (props.data.checkAccountExist) {
-      console.log("Account already exists");
-    } else {
-      props.mutate({
-        variables: {
-          firstName: values.firstName,
-          lastName: values.lastName,
-          accountType: values.accountType,
-          email: values.email,
-          password: values.password
-        }
-      });
-    }
+    const fetch = createApolloFetch({
+      uri: "http://localhost:5000/graphql"
+    });
+    fetch({
+      query: `query checkAccount($email: String) {
+                checkAccountExist(email: $email) {
+                  email
+                }
+              }`,
+      variables: { email: values.email }
+    }).then(res => {
+      console.log(res.data);
+      if (res.data !== null) {
+        console.log("User already exists!");
+      } else {
+        console.log("User does not exit");
+        props.mutate({
+          variables: {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            accountType: values.accountType,
+            email: values.email,
+            password: values.password
+          }
+        });
+      }
+    });
   }
+  //.then(() => resetForm());
 })(App);
 
-export default graphql(mutation)(
-  graphql(query, {
-    options: {
-      variables: {
-        email: "gbajaf@yahoo.co.uk"
-      }
-    }
-  })(FormikApp)
-);
+export default graphql(mutation)(FormikApp);
