@@ -5,6 +5,7 @@ import Yup from "yup";
 import { graphql } from "react-apollo";
 
 import mutation from "../../mutations/register";
+import query from "../../queries/checkAccount";
 
 const App = ({ values, errors, touched, isSubmitting }) => {
   return (
@@ -42,7 +43,7 @@ const App = ({ values, errors, touched, isSubmitting }) => {
         <Field type="checkbox" name="newsletter" checked={values.newsletter} />
         Join our newsletter
       </label> */}
-      <button disabled={isSubmitting}>Submit</button>
+      <button>Submit</button>
     </Form>
   );
 };
@@ -78,19 +79,28 @@ const FormikApp = withFormik({
     )
   }),
   handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
-    console.log(values);
-    //console.log(props);
-    props.mutate({
-      variables: {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        accountType: values.accountType,
-        email: values.email,
-        password: values.password
-      }
-    });
-    //do the mutation here
+    if (props.data.checkAccountExist) {
+      console.log("Account already exists");
+    } else {
+      props.mutate({
+        variables: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          accountType: values.accountType,
+          email: values.email,
+          password: values.password
+        }
+      });
+    }
   }
 })(App);
 
-export default graphql(mutation)(FormikApp);
+export default graphql(mutation)(
+  graphql(query, {
+    options: {
+      variables: {
+        email: "gbajaf@yahoo.co.uk"
+      }
+    }
+  })(FormikApp)
+);

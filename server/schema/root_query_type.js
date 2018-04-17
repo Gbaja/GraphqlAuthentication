@@ -7,11 +7,11 @@ const { GraphQLObjectType, GraphQLString, GraphQLList } = graphql;
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
-    account: {
+    checkAccountExist: {
       type: Registrationtype,
-      args: { id: { type: GraphQLString } },
-      resolve(parentValue, { id }) {
-        return models.Registration.findOne({ where: { id } });
+      args: { email: { type: GraphQLString } },
+      resolve(parentValue, { email }) {
+        return models.Registration.findOne({ where: { email } });
       }
     },
     allAccounts: {
