@@ -1,5 +1,7 @@
 //LOOK INTO DATATYPE VISUAL FOR PASSWORD
-module.exports = (sequelize, DataTypes) => {
+const hashPassword = require("../utils/hash_password");
+
+const Registration = (sequelize, DataTypes) => {
   const Registration = sequelize.define("Registration", {
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
@@ -14,5 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE(3)
     }
   });
+  Registration.beforeCreate((user, options) => {
+    return hashPassword(user.password).then(hashedPw => {
+      user.password = hashedPw;
+    });
+  });
   return Registration;
 };
+
+module.exports = Registration;
