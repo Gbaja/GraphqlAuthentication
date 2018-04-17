@@ -4,11 +4,25 @@ const cors = require("cors");
 const expressGraphQL = require("express-graphql");
 const bodyParser = require("body-parser");
 const path = require("path");
+const session = require("express-session");
+const passport = require("passport");
 
 const schema = require("./schema/schema");
 
 const app = express();
 app.use(helmet());
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(cors());
 app.use(
   "/graphql",
