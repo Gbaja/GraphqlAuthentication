@@ -33,7 +33,7 @@ const App = ({ values, errors, touched, isSubmitting }) => {
         {touched.confirmPassword &&
           errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <Field
-          type="confirmPassword"
+          type="password"
           name="confirmPassword"
           placeholder="confirmPassword"
         />
@@ -68,9 +68,14 @@ const FormikApp = withFormik({
     password: Yup.string()
       .min(9, "Password must be 9 characers longer")
       .required("password is required"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null])
-      .required("Password does not equal.")
+    confirmPassword: Yup.string().test(
+      "password-match",
+      "Passwords do not match",
+      function(value) {
+        const { password } = this.parent;
+        return password === value;
+      }
+    )
   }),
   handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
     console.log(values);
