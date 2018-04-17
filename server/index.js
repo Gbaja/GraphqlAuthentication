@@ -11,7 +11,7 @@ const schema = require("./schema/schema");
 
 const app = express();
 app.use(helmet());
-
+app.use(cors());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -23,7 +23,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(cors());
 app.use(
   "/graphql",
   bodyParser.json(),
