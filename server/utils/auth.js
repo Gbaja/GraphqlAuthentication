@@ -1,6 +1,7 @@
-const models = require("../model");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+const models = require("../model");
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -8,42 +9,68 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   models.Registration.findById(id, (err, user) => {
-    done(err, user);
+    done(user.err, user.get());
   });
 });
-
+var isValidPassword = function(userpass, password) {
+  return bcrypt.compareSync(password, userpass);
+};
 passport.use(
   new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
-    models.Registration.findOne({ email: email.toLowerCase() }, (err, user) => {
-      if (err) {
-        return done(err);
-      }
+    return models.Registration.findOne({ where: { email } }).then(user => {
       if (!user) {
         return done(null, false, "Invalid Credentials");
       }
-      user.comparePassword(password, (err, isMatch) => {
-        if (err) {
-          return done(err);
-        }
-        if (isMatch) {
-          return done(null, user);
-        }
-        return done(null, false, "Invalid credentials.");
-      });
+      if (!isValidPassword(user.password, password)) {
+        return done(null, false, {
+          message: "Incorrect password."
+        });
+      } else {
+        return done(null, user);
+      }
     });
   })
 );
+
+function signup({ firstName, lastName, accountType, email, password, req }) {
+  if (!firstName || !lastName || !accountType || !email || !password) {
+    throw new Error("You must provide all the details required.");
+  }
+  return models.Registration.findOne({ where: { email: email.toLowerCase() } })
+    .then(existingUser => {
+      if (existingUser) {
+        throw new Error("Email in use");
+      }
+      return models.Registration.create({
+        firstName,
+        lastName,
+        accountType,
+        email,
+        password
+      });
+    })
+    .then(user => {
+      return new Promise((resolve, reject) => {
+        req.logIn(user, err => {
+          if (err) {
+            reject(err);
+          }
+          resolve(user);
+        });
+      });
+    });
+}
 
 function login({ email, password, req }) {
   return new Promise((resolve, reject) => {
     passport.authenticate("local", (err, user) => {
       if (!user) {
         reject("Invalid credentials.");
+      } else {
+        req.login(user, () => resolve(user));
       }
-
-      req.login(user, () => resolve(user));
     })({ body: { email, password } });
   });
 }
 
-module.exports = { login };
+module.exports = { signup, login };

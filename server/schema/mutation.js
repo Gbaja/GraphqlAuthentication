@@ -3,11 +3,22 @@ const graphql = require("graphql");
 const { GraphQLObjectType, GraphQLString } = graphql;
 const RegistrationType = require("./types/registration_type");
 const models = require("../model");
+const AuthService = require("../utils/auth");
 
 const mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
-    register: {
+    login: {
+      type: RegistrationType,
+      args: {
+        email: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
+      resolve(parentValue, { email, password }, req) {
+        return AuthService.login({ email, password, req });
+      }
+    },
+    signup: {
       type: RegistrationType,
       args: {
         firstName: { type: GraphQLString },
@@ -16,8 +27,19 @@ const mutation = new GraphQLObjectType({
         email: { type: GraphQLString },
         password: { type: GraphQLString }
       },
-      resolve(parentValue, args) {
-        return models.Registration.create(args);
+      resolve(
+        parentValue,
+        { firstName, lastName, accountType, email, password },
+        req
+      ) {
+        return AuthService.signup({
+          firstName,
+          lastName,
+          accountType,
+          email,
+          password,
+          req
+        });
       }
     }
   }

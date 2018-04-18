@@ -81,35 +81,21 @@ const FormikApp = withFormik({
     )
   }),
   handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
-    const fetch = createApolloFetch({
-      uri: "http://localhost:5000/graphql"
-    });
-    fetch({
-      query: `query checkAccount($email: String) {
-                checkAccountExist(email: $email) {
-                  email
-                }
-              }`,
-      variables: { email: values.email }
-    }).then(res => {
-      console.log(res.data);
-      if (res.data !== null) {
-        console.log("User already exists!");
-      } else {
-        console.log("User does not exit");
-        props.mutate({
-          variables: {
-            firstName: values.firstName,
-            lastName: values.lastName,
-            accountType: values.accountType,
-            email: values.email,
-            password: values.password
-          }
-        });
-      }
-    });
+    props
+      .mutate({
+        variables: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          accountType: values.accountType,
+          email: values.email,
+          password: values.password
+        }
+      })
+      .then(res => {
+        console.log(res);
+        resetForm();
+      });
   }
-  //.then(() => resetForm());
 })(App);
 
 export default graphql(mutation)(FormikApp);
