@@ -1,14 +1,14 @@
 import gql from "graphql-tag";
 
 export default gql`
-  mutation registeration(
+  mutation signup(
     $firstName: String
     $lastName: String
     $accountType: String
     $email: String
     $password: String
   ) {
-    register(
+    signup(
       firstName: $firstName
       lastName: $lastName
       accountType: $accountType

@@ -10,7 +10,9 @@ const RegistrationType = new GraphQLObjectType({
     lastName: { type: GraphQLString },
     accountType: { type: GraphQLString },
     email: { type: GraphQLString },
-    password: { type: GraphQLString }
+    password: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
+    updatedAt: { type: GraphQLString }
   })
 });
 
