@@ -12,7 +12,8 @@ passport.deserializeUser((id, done) => {
     done(user.err, user.get());
   });
 });
-var isValidPassword = function(userpass, password) {
+
+const isValidPassword = function(userpass, password) {
   return bcrypt.compareSync(password, userpass);
 };
 passport.use(
@@ -32,7 +33,7 @@ passport.use(
   })
 );
 
-function signup({ firstName, lastName, accountType, email, password, req }) {
+const signup = ({ firstName, lastName, accountType, email, password, req }) => {
   if (!firstName || !lastName || !accountType || !email || !password) {
     throw new Error("You must provide all the details required.");
   }
@@ -59,9 +60,9 @@ function signup({ firstName, lastName, accountType, email, password, req }) {
         });
       });
     });
-}
+};
 
-function login({ email, password, req }) {
+const login = ({ email, password, req }) => {
   return new Promise((resolve, reject) => {
     passport.authenticate("local", (err, user) => {
       if (!user) {
@@ -71,6 +72,6 @@ function login({ email, password, req }) {
       }
     })({ body: { email, password } });
   });
-}
+};
 
 module.exports = { signup, login };
