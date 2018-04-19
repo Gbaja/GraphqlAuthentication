@@ -21,8 +21,7 @@ passport.use(
     return models.Registration.findOne({ where: { email } }).then(user => {
       if (!user) {
         return done(null, false, "Invalid Credentials");
-      }
-      if (!isValidPassword(user.password, password)) {
+      } else if (!isValidPassword(user.password, password)) {
         return done(null, false, {
           message: "Incorrect password."
         });
@@ -65,8 +64,11 @@ const signup = ({ firstName, lastName, accountType, email, password, req }) => {
 const login = ({ email, password, req }) => {
   return new Promise((resolve, reject) => {
     passport.authenticate("local", (err, user) => {
+      console.log(user);
       if (!user) {
-        reject("Invalid credentials.");
+        reject(
+          "Please make sure you enter a valid email and password registered with young&living."
+        );
       } else {
         req.login(user, () => resolve(user));
       }

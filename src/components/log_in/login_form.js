@@ -6,9 +6,11 @@ import { graphql } from "react-apollo";
 
 import mutation from "../../mutations/login";
 
-const login = ({ errors, touched }) => {
+const login = ({ errors, touched, status }) => {
   return (
     <Form>
+      <h3>Log in </h3>
+      {status && <p>{status}</p>}
       <div>
         {touched.email && errors.email && <p>{errors.email}</p>}
         <Field type="email" name="email" placeholder="email" />
@@ -35,7 +37,7 @@ const Formiklogin = withFormik({
       .required("Email is required"),
     password: Yup.string().required("Please enter a password!")
   }),
-  handleSubmit(values, { props, resetForm }) {
+  handleSubmit(values, { props, resetForm, setStatus }) {
     //console.log(values);
     props
       .mutate({
@@ -46,6 +48,10 @@ const Formiklogin = withFormik({
       })
       .then(res => {
         props.history.push("/dashboard");
+      })
+      .catch(err => {
+        console.log(err.graphQLErrors);
+        return err.graphQLErrors.map(err => setStatus(err.message));
       });
   }
 })(login);
