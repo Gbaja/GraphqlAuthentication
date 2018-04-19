@@ -20,6 +20,12 @@ const RootQuery = new GraphQLObjectType({
         return models.Registration.findAll();
       }
     }
+  },
+  currentUser: {
+    type: Registrationtype,
+    resolve(parentValue, args, req) {
+      return req.currentUser;
+    }
   }
 });
 
