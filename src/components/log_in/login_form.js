@@ -4,6 +4,8 @@ import { withFormik, Form, Field } from "formik";
 import Yup from "yup";
 import { graphql } from "react-apollo";
 
+import mutation from "../../mutations/login";
+
 const login = ({ errors, touched }) => {
   return (
     <Form>
@@ -33,9 +35,20 @@ const Formiklogin = withFormik({
       .required("Email is required"),
     password: Yup.string().required("Please enter a password!")
   }),
-  handleSubmit(values) {
-    console.log(values);
+  handleSubmit(values, { props, resetForm }) {
+    //console.log(values);
+    props
+      .mutate({
+        variables: {
+          email: values.email,
+          password: values.password
+        }
+      })
+      .then(res => {
+        console.log(res);
+        resetForm();
+      });
   }
 })(login);
 
-export default Formiklogin;
+export default graphql(mutation)(Formiklogin);
