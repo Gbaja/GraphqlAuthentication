@@ -9,9 +9,11 @@ import { createApolloFetch } from "apollo-fetch";
 import mutation from "../../mutations/register";
 import query from "../../queries/checkAccount";
 
-const App = ({ values, errors, touched, isSubmitting }) => {
+const App = ({ errors, touched, status }) => {
   return (
     <Form>
+      <h3>Sign up form</h3>
+      {status && <p>{status}</p>}
       <div>
         {touched.firstName && errors.firstName && <p>{errors.firstName}</p>}
         <Field type="firstName" name="firstName" placeholder="firstName" />
@@ -80,7 +82,7 @@ const FormikApp = withFormik({
       }
     )
   }),
-  handleSubmit(values, { props, resetForm, setErrors, setSubmitting }) {
+  handleSubmit(values, { props, setStatus, setSubmitting }) {
     props
       .mutate({
         variables: {
@@ -92,8 +94,10 @@ const FormikApp = withFormik({
         }
       })
       .then(res => {
-        console.log(res);
-        resetForm();
+        props.history.push("/dashboard");
+      })
+      .catch(err => {
+        return err.graphQLErrors.map(err => setStatus(err.message));
       });
   }
 })(App);

@@ -1,9 +1,9 @@
 import gql from "graphql-tag";
 
 export default gql`
-  query {
-    currentUser {
-      firstName
+  mutation {
+    logout {
+      id
       email
     }
   }

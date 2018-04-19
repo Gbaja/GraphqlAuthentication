@@ -12,7 +12,8 @@ passport.deserializeUser((id, done) => {
     done(user.err, user.get());
   });
 });
-var isValidPassword = function(userpass, password) {
+
+const isValidPassword = function(userpass, password) {
   return bcrypt.compareSync(password, userpass);
 };
 passport.use(
@@ -20,8 +21,7 @@ passport.use(
     return models.Registration.findOne({ where: { email } }).then(user => {
       if (!user) {
         return done(null, false, "Invalid Credentials");
-      }
-      if (!isValidPassword(user.password, password)) {
+      } else if (!isValidPassword(user.password, password)) {
         return done(null, false, {
           message: "Incorrect password."
         });
@@ -32,14 +32,16 @@ passport.use(
   })
 );
 
-function signup({ firstName, lastName, accountType, email, password, req }) {
+const signup = ({ firstName, lastName, accountType, email, password, req }) => {
   if (!firstName || !lastName || !accountType || !email || !password) {
     throw new Error("You must provide all the details required.");
   }
   return models.Registration.findOne({ where: { email: email.toLowerCase() } })
     .then(existingUser => {
       if (existingUser) {
-        throw new Error("Email in use");
+        throw new Error(
+          "This email address has already been used to create an account with Young&giving, please try logging in."
+        );
       }
       return models.Registration.create({
         firstName,
@@ -59,18 +61,20 @@ function signup({ firstName, lastName, accountType, email, password, req }) {
         });
       });
     });
-}
+};
 
-function login({ email, password, req }) {
+const login = ({ email, password, req }) => {
   return new Promise((resolve, reject) => {
     passport.authenticate("local", (err, user) => {
       if (!user) {
-        reject("Invalid credentials.");
+        reject(
+          "Please make sure you enter a valid email and password registered with young&living."
+        );
       } else {
         req.login(user, () => resolve(user));
       }
     })({ body: { email, password } });
   });
-}
+};
 
 module.exports = { signup, login };
