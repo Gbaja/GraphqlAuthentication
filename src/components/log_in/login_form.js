@@ -45,8 +45,7 @@ const Formiklogin = withFormik({
         }
       })
       .then(res => {
-        console.log(res);
-        resetForm();
+        props.history.push("/dashboard");
       });
   }
 })(login);

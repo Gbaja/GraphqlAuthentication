@@ -92,8 +92,7 @@ const FormikApp = withFormik({
         }
       })
       .then(res => {
-        console.log(res);
-        resetForm();
+        props.history.push("/dashboard");
       });
   }
 })(App);

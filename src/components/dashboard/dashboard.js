@@ -3,7 +3,7 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { Link } from "react-router-dom";
 
-class Landing extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
@@ -11,3 +11,5 @@ class Landing extends Component {
     return <div> Welcome</div>;
   }
 }
+
+export default Dashboard;
