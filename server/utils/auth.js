@@ -39,7 +39,9 @@ const signup = ({ firstName, lastName, accountType, email, password, req }) => {
   return models.Registration.findOne({ where: { email: email.toLowerCase() } })
     .then(existingUser => {
       if (existingUser) {
-        throw new Error("Email in use");
+        throw new Error(
+          "This email address has already been used to create an account with Young&giving, please try logging in."
+        );
       }
       return models.Registration.create({
         firstName,
@@ -64,7 +66,6 @@ const signup = ({ firstName, lastName, accountType, email, password, req }) => {
 const login = ({ email, password, req }) => {
   return new Promise((resolve, reject) => {
     passport.authenticate("local", (err, user) => {
-      console.log(user);
       if (!user) {
         reject(
           "Please make sure you enter a valid email and password registered with young&living."

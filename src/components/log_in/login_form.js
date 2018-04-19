@@ -37,8 +37,7 @@ const Formiklogin = withFormik({
       .required("Email is required"),
     password: Yup.string().required("Please enter a password!")
   }),
-  handleSubmit(values, { props, resetForm, setStatus }) {
-    //console.log(values);
+  handleSubmit(values, { props, setStatus }) {
     props
       .mutate({
         variables: {
@@ -50,7 +49,6 @@ const Formiklogin = withFormik({
         props.history.push("/dashboard");
       })
       .catch(err => {
-        console.log(err.graphQLErrors);
         return err.graphQLErrors.map(err => setStatus(err.message));
       });
   }
