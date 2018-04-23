@@ -46,9 +46,11 @@ const mutation = new GraphQLObjectType({
     logout: {
       type: RegistrationType,
       resolve(parentValue, args, req) {
+        console.log("before destructuring in logout: ", req.session);
         const { user } = req;
+        console.log("before req.logout: ", req.session);
         req.logout();
-        console.log(user);
+        console.log("after req.logout: ", req.session);
         return user;
       }
     }

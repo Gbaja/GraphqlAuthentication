@@ -57,6 +57,7 @@ const signup = ({ firstName, lastName, accountType, email, password, req }) => {
           if (err) {
             reject(err);
           }
+          console.log("AUTH JS SIGNUP COOKIE: ", req.session);
           resolve(user);
         });
       });
@@ -71,7 +72,10 @@ const login = ({ email, password, req }) => {
           "Please make sure you enter a valid email and password registered with young&living."
         );
       } else {
-        req.login(user, () => resolve(user));
+        req.login(user, () => {
+          console.log("AUTH JS LOGIN COOKIE: ", req.session);
+          resolve(user);
+        });
       }
     })({ body: { email, password } });
   });
